@@ -46,10 +46,10 @@
       position: absolute;
       top: -50px;
       color: rgba(0, 255, 255, 0.3);
-      font-size: 22px;
+      font-size: 28px;
       font-weight: bold;
       animation: fall linear infinite;
-      text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+      text-shadow: 0 0 8px #00ffff, 0 0 16px #00ffff;
       user-select: none;
     }
 
@@ -71,38 +71,38 @@
     .container {
       position: relative;
       z-index: 1;
-      background: rgba(0, 0, 0, 0.3);
-      border: 2px solid #00aaff;
-      border-radius: 20px;
-      padding: 40px 60px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 3px solid #00aaff;
+      border-radius: 30px;
+      padding: 60px 90px;
       text-align: center;
-      width: 400px;
-      box-shadow: 0 0 20px rgba(0,170,255,0.4);
+      width: 520px;
+      box-shadow: 0 0 40px rgba(0,170,255,0.6);
       transition: box-shadow 0.4s ease;
       user-select: none;
     }
 
     .container:hover {
-      box-shadow: 0 0 35px #00ffff, inset 0 0 25px #00ffff;
+      box-shadow: 0 0 55px #00ffff, inset 0 0 30px #00ffff;
     }
 
     h1 {
-      margin-bottom: 30px;
-      font-weight: 600;
-      font-size: 2.2rem;
-      text-shadow: 0 0 12px #00ffff;
+      margin-bottom: 40px;
+      font-weight: 700;
+      font-size: 3rem;
+      text-shadow: 0 0 18px #00ffff;
     }
 
     .key-box {
       background: #031b2e;
-      border-radius: 12px;
-      padding: 18px 25px;
-      margin-bottom: 30px;
-      font-size: 2rem;
-      letter-spacing: 6px;
+      border-radius: 18px;
+      padding: 30px 40px;
+      margin-bottom: 40px;
+      font-size: 3rem;
+      letter-spacing: 10px;
       color: #00e1ff;
       user-select: all;
-      box-shadow: inset 0 0 18px #0099ff;
+      box-shadow: inset 0 0 25px #0099ff;
       cursor: text;
     }
 
@@ -110,16 +110,16 @@
     button {
       background: linear-gradient(90deg, #0077cc, #00c8ff);
       border: none;
-      border-radius: 50px;
-      padding: 14px 50px;
-      font-size: 1.3rem;
-      font-weight: 700;
+      border-radius: 60px;
+      padding: 20px 70px;
+      font-size: 1.8rem;
+      font-weight: 800;
       color: #011f26;
       cursor: pointer;
       position: relative;
       overflow: hidden;
       z-index: 1;
-      box-shadow: 0 0 15px #00ffff;
+      box-shadow: 0 0 25px #00ffff;
       transition: all 0.3s ease;
       user-select: none;
     }
@@ -127,7 +127,7 @@
     button:hover {
       background: linear-gradient(90deg, #005f88, #00e1ff);
       color: #000;
-      box-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
+      box-shadow: 0 0 30px #00ffff, 0 0 45px #00ffff;
     }
 
     button::after {
@@ -150,10 +150,10 @@
     }
 
     #copy-status {
-      margin-top: 20px;
-      font-size: 1.1rem;
+      margin-top: 28px;
+      font-size: 1.5rem;
       color: #00eaff;
-      height: 24px;
+      height: 28px;
       transition: opacity 0.3s ease;
     }
   </style>
@@ -207,9 +207,9 @@
       const span = document.createElement('span');
       span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
       span.style.left = Math.random() * 100 + '%';
-      span.style.fontSize = (Math.random() * 20 + 12) + 'px';
-      span.style.animationDuration = (Math.random() * 12 + 8) + 's';
-      span.style.animationDelay = Math.random() * 8 + 's';
+      span.style.fontSize = (Math.random() * 28 + 18) + 'px';
+      span.style.animationDuration = (Math.random() * 14 + 10) + 's';
+      span.style.animationDelay = Math.random() * 10 + 's';
       fallContainer.appendChild(span);
     }
 
