@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Futuristic Key Portal</title>
+  <title>Access Key Portal</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
@@ -15,8 +15,8 @@
       margin: 0;
       height: 100vh;
       font-family: 'Orbitron', sans-serif;
-      background: #0a0a1f;
-      color: #00c8ff;
+      background: #000;
+      color: #00e1ff;
       overflow: hidden;
       display: flex;
       justify-content: center;
@@ -24,183 +24,162 @@
       position: relative;
     }
 
-    /* === CYBER FALLING PARTICLES === */
     .falling {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       overflow: hidden;
       z-index: 0;
       pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .falling.paused {
+      opacity: 0;
     }
 
     .falling span {
       position: absolute;
       top: -50px;
-      color: rgba(0, 170, 255, 0.15);
-      font-size: 20px;
+      color: #00ffff;
+      font-size: 16px;
+      font-weight: bold;
       animation: fall linear infinite;
+      text-shadow: 0 0 6px #00ffff;
+      user-select: none;
     }
 
     @keyframes fall {
       0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-      }
-      50% {
+        transform: translateY(-50px);
         opacity: 1;
       }
       100% {
-        transform: translateY(120vh) rotate(360deg);
-        opacity: 0;
+        transform: translateY(110vh);
+        opacity: 1;
       }
     }
 
-    /* === MAIN CONTAINER === */
     .container {
       position: relative;
       z-index: 1;
-      background: rgba(0, 0, 0, 0.2);
+      background: #000000;
       border: 2px solid #00aaff;
-      border-radius: 15px;
-      padding: 30px 50px;
+      border-radius: 16px;
+      padding: 30px 40px;
       text-align: center;
-      width: 320px;
-      box-shadow: 0 0 10px rgba(0,170,255,0.3);
-      transition: box-shadow 0.4s ease;
-    }
-
-    .container:hover {
-      box-shadow: 0 0 25px #00aaff, inset 0 0 20px #0088ff;
+      width: 400px;
+      box-shadow: 0 0 15px #00ffff;
     }
 
     h1 {
       margin-bottom: 20px;
-      font-weight: 500;
-      font-size: 1.8rem;
-      text-shadow: 0 0 10px #00aaff;
+      font-size: 1.6rem;
+      text-shadow: 0 0 10px #00e1ff;
     }
 
     .key-box {
-      background: #011627;
+      background: #002233;
       border-radius: 10px;
       padding: 15px 20px;
-      margin-bottom: 25px;
       font-size: 1.8rem;
-      letter-spacing: 6px;
-      color: #00c8ff;
+      letter-spacing: 4px;
+      color: #00e1ff;
       user-select: all;
-      box-shadow: inset 0 0 15px #0077cc;
-      cursor: text;
+      margin-bottom: 20px;
+      box-shadow: inset 0 0 10px #00bfff;
     }
 
-    /* === COPY BUTTON === */
     button {
-      background: linear-gradient(90deg, #0077cc, #00c8ff);
+      background: linear-gradient(90deg, #0077cc, #00e1ff);
       border: none;
-      border-radius: 50px;
-      padding: 12px 40px;
+      border-radius: 30px;
+      padding: 10px 35px;
       font-size: 1.1rem;
-      font-weight: 600;
-      color: #011f26;
+      font-weight: bold;
+      color: #000;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-      box-shadow: 0 0 10px #00aaff;
+      box-shadow: 0 0 15px #00e1ff;
       transition: all 0.3s ease;
     }
 
     button:hover {
-      background: linear-gradient(90deg, #005f88, #00e1ff);
-      color: #000;
-      box-shadow: 0 0 15px #00c8ff, 0 0 30px #00c8ff;
-    }
-
-    button::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(255, 255, 255, 0.3);
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      z-index: 0;
-      transition: width 0.4s ease, height 0.4s ease;
-    }
-
-    button:active::after {
-      width: 300%;
-      height: 300%;
+      background: linear-gradient(90deg, #005f88, #00ffff);
+      box-shadow: 0 0 25px #00ffff;
     }
 
     #copy-status {
-      margin-top: 15px;
+      margin-top: 12px;
       font-size: 1rem;
-      color: #00c8ff;
-      height: 20px;
-      transition: opacity 0.3s ease;
+      color: #00eaff;
+      height: 24px;
     }
   </style>
 </head>
 <body>
-  <!-- 🔵 CYBER FALL BACKGROUND -->
+
   <div class="falling" id="fall-bg"></div>
 
-  <div class="container">
+  <div class="container" id="gui-container">
     <h1>Access Key</h1>
-    <div id="key" class="key-box" tabindex="0">986745</div>
+    <div id="key" class="key-box" tabindex="0">9867456297</div>
     <button id="copy-btn">Copy Key</button>
     <div id="copy-status"></div>
   </div>
 
   <script>
-    // 👾 Set Key
-    const expectedKey = "986745";
-    const keyDiv = document.getElementById('key');
-    keyDiv.textContent = expectedKey;
+    const keyValue = "9867456297";
+    document.getElementById('key').textContent = keyValue;
 
-    // ✂️ Copy Function
-    const copyBtn = document.getElementById('copy-btn');
-    const copyStatus = document.getElementById('copy-status');
-
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(expectedKey).then(() => {
-        copyStatus.textContent = 'Copied to clipboard!';
+    // Copy key logic
+    document.getElementById('copy-btn').addEventListener('click', () => {
+      navigator.clipboard.writeText(keyValue).then(() => {
+        document.getElementById('copy-status').textContent = '✔ Copied!';
         setTimeout(() => {
-          copyStatus.textContent = '';
+          document.getElementById('copy-status').textContent = '';
         }, 2000);
-      }).catch(() => {
-        copyStatus.textContent = 'Failed to copy.';
       });
     });
 
-    keyDiv.addEventListener('click', () => {
+    // Highlight on click
+    document.getElementById('key').addEventListener('click', () => {
       const range = document.createRange();
-      range.selectNodeContents(keyDiv);
+      range.selectNodeContents(document.getElementById('key'));
       const sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
     });
 
-    // 🧬 Falling Particle Generator
-    const fallContainer = document.getElementById('fall-bg');
-    const chars = '★✦◇◆✧✩';
+    // Rain particles
+    const container = document.getElementById('fall-bg');
+    const symbols = '★✦◇◆✧✩✪✯+*';
 
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 120; i++) {
       const span = document.createElement('span');
-      span.innerText = chars[Math.floor(Math.random() * chars.length)];
+      span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
       span.style.left = Math.random() * 100 + '%';
-      span.style.fontSize = Math.random() * 20 + 10 + 'px';
-      span.style.animationDuration = Math.random() * 10 + 10 + 's';
+      span.style.fontSize = (Math.random() * 16 + 12) + 'px';
+      span.style.animationDuration = (Math.random() * 12 + 8) + 's'; // Some slow, some fast
       span.style.animationDelay = Math.random() * 10 + 's';
-      fallContainer.appendChild(span);
+      container.appendChild(span);
     }
+
+    // Hide rain when mouse inside GUI
+    const gui = document.getElementById('gui-container');
+    container.classList.remove('paused');
+    document.body.addEventListener('mousemove', (e) => {
+      const rect = gui.getBoundingClientRect();
+      const inside = (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      );
+      if (inside) container.classList.add('paused');
+      else container.classList.remove('paused');
+    });
   </script>
 </body>
 </html>
-
-
-
