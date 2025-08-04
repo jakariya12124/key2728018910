@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Futuristic Key Copy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #00ffd5;
+  }
+
+  .container {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #00ffd5;
+    border-radius: 15px;
+    box-shadow:
+      0 0 15px #00ffd5,
+      inset 0 0 20px #00ffd5;
+    padding: 30px 50px;
+    text-align: center;
+    width: 320px;
+  }
+
+  h1 {
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px #00ffd5;
+  }
+
+  .key-box {
+    background: #011f26;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    letter-spacing: 6px;
+    color: #00ffd5;
+    user-select: all;
+    box-shadow: inset 0 0 15px #00ffd5;
+    cursor: text;
+  }
+
+  button {
+    background: linear-gradient(90deg, #00ffd5, #005f6a);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #011f26;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow:
+      0 0 8px #00ffd5,
+      0 0 20px #00ffd5;
+  }
+
+  button:hover {
+    background: linear-gradient(90deg, #005f6a, #00ffd5);
+    color: #000;
+    box-shadow:
+      0 0 12px #00ffd5,
+      0 0 30px #00ffd5,
+      0 0 40px #00ffd5;
+  }
+
+  #copy-status {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #00ffd5;
+    height: 20px;
+    transition: opacity 0.3s ease;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Access Key</h1>
+    <div id="key" class="key-box" tabindex="0">9867456297</div>
+    <button id="copy-btn">Copy Key</button>
+    <div id="copy-status"></div>
+  </div>
+
+  <script>
+    const expectedKey = "9867456297";
+    const keyDiv = document.getElementById('key');
+    keyDiv.textContent = expectedKey;
+
+    const copyBtn = document.getElementById('copy-btn');
+    const copyStatus = document.getElementById('copy-status');
+
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(expectedKey).then(() => {
+        copyStatus.textContent = 'Copied to clipboard!';
+        setTimeout(() => {
+          copyStatus.textContent = '';
+        }, 2000);
+      }).catch(() => {
+        copyStatus.textContent = 'Failed to copy.';
+      });
+    });
+
+    keyDiv.addEventListener('click', () => {
+      const range = document.createRange();
+      range.selectNodeContents(keyDiv);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    });
+  </script>
+</body>
+</html>
