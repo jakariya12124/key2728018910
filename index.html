@@ -26,11 +26,19 @@
 
     /* === RAIN EFFECT === */
     .falling {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       overflow: hidden;
       z-index: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .falling.paused {
+      opacity: 0;
       pointer-events: none;
     }
 
@@ -42,6 +50,7 @@
       font-weight: bold;
       animation: fall linear infinite;
       text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+      user-select: none;
     }
 
     @keyframes fall {
@@ -70,6 +79,7 @@
       width: 400px;
       box-shadow: 0 0 20px rgba(0,170,255,0.4);
       transition: box-shadow 0.4s ease;
+      user-select: none;
     }
 
     .container:hover {
@@ -111,6 +121,7 @@
       z-index: 1;
       box-shadow: 0 0 15px #00ffff;
       transition: all 0.3s ease;
+      user-select: none;
     }
 
     button:hover {
@@ -152,7 +163,7 @@
   <div class="falling" id="fall-bg"></div>
 
   <!-- Main GUI -->
-  <div class="container">
+  <div class="container" id="gui-container">
     <h1>Access Key</h1>
     <div id="key" class="key-box" tabindex="0">9867456297</div>
     <button id="copy-btn">Copy Key</button>
@@ -164,7 +175,7 @@
     const expectedKey = "9867456297";
     document.getElementById('key').textContent = expectedKey;
 
-    // Copy Button
+    // Copy Button Logic
     const copyBtn = document.getElementById('copy-btn');
     const copyStatus = document.getElementById('copy-status');
 
@@ -179,7 +190,7 @@
       });
     });
 
-    // Click Key to Highlight
+    // Highlight key text on click
     document.getElementById('key').addEventListener('click', () => {
       const range = document.createRange();
       range.selectNodeContents(document.getElementById('key'));
@@ -190,17 +201,50 @@
 
     // Create Falling Rain Particles
     const fallContainer = document.getElementById('fall-bg');
-    const symbols = '★✦◇◆✧✩✪✯+*'; // cool glowing particles
+    const symbols = '★✦◇◆✧✩✪✯+*'; // glowing particles
 
     for (let i = 0; i < 70; i++) {
       const span = document.createElement('span');
       span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
       span.style.left = Math.random() * 100 + '%';
-      span.style.fontSize = Math.random() * 20 + 12 + 'px';
-      span.style.animationDuration = Math.random() * 12 + 8 + 's';
+      span.style.fontSize = (Math.random() * 20 + 12) + 'px';
+      span.style.animationDuration = (Math.random() * 12 + 8) + 's';
       span.style.animationDelay = Math.random() * 8 + 's';
       fallContainer.appendChild(span);
     }
+
+    // Rain show/hide based on mouse position relative to GUI
+    const gui = document.getElementById('gui-container');
+    const rain = document.getElementById('fall-bg');
+
+    document.body.addEventListener('mousemove', (e) => {
+      const rect = gui.getBoundingClientRect();
+      const inside = (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      );
+      if (inside) {
+        rain.classList.add('paused'); // hide/stop rain when cursor inside GUI
+      } else {
+        rain.classList.remove('paused'); // show rain when outside GUI
+      }
+    });
+
+    // Start hidden if mouse loads inside GUI
+    window.addEventListener('load', () => {
+      const evt = { clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 };
+      const rect = gui.getBoundingClientRect();
+      if (
+        evt.clientX >= rect.left &&
+        evt.clientX <= rect.right &&
+        evt.clientY >= rect.top &&
+        evt.clientY <= rect.bottom
+      ) {
+        rain.classList.add('paused');
+      }
+    });
   </script>
 </body>
 </html>
