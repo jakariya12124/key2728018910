@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Key Access Portal</title>
+  <title>Futuristic Key Portal</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
@@ -15,7 +15,7 @@
       margin: 0;
       height: 100vh;
       font-family: 'Orbitron', sans-serif;
-      background: #02010a;
+      background: #0a0a1f;
       color: #00c8ff;
       overflow: hidden;
       display: flex;
@@ -24,85 +24,73 @@
       position: relative;
     }
 
-    /* === RAIN EFFECT === */
+    /* === CYBER FALLING PARTICLES === */
     .falling {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      position: absolute;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
       z-index: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .falling.paused {
-      opacity: 0;
       pointer-events: none;
     }
 
     .falling span {
       position: absolute;
       top: -50px;
-      color: rgba(0, 255, 255, 0.3);
-      font-size: 22px;
-      font-weight: bold;
+      color: rgba(0, 170, 255, 0.15);
+      font-size: 20px;
       animation: fall linear infinite;
-      text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
-      user-select: none;
     }
 
     @keyframes fall {
       0% {
-        transform: translateY(-50px);
+        transform: translateY(0) rotate(0deg);
         opacity: 0;
       }
       50% {
         opacity: 1;
       }
       100% {
-        transform: translateY(120vh);
+        transform: translateY(120vh) rotate(360deg);
         opacity: 0;
       }
     }
 
-    /* === MAIN GUI === */
+    /* === MAIN CONTAINER === */
     .container {
       position: relative;
       z-index: 1;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.2);
       border: 2px solid #00aaff;
-      border-radius: 20px;
-      padding: 40px 60px;
+      border-radius: 15px;
+      padding: 30px 50px;
       text-align: center;
-      width: 400px;
-      box-shadow: 0 0 20px rgba(0,170,255,0.4);
+      width: 320px;
+      box-shadow: 0 0 10px rgba(0,170,255,0.3);
       transition: box-shadow 0.4s ease;
-      user-select: none;
     }
 
     .container:hover {
-      box-shadow: 0 0 35px #00ffff, inset 0 0 25px #00ffff;
+      box-shadow: 0 0 25px #00aaff, inset 0 0 20px #0088ff;
     }
 
     h1 {
-      margin-bottom: 30px;
-      font-weight: 600;
-      font-size: 2.2rem;
-      text-shadow: 0 0 12px #00ffff;
+      margin-bottom: 20px;
+      font-weight: 500;
+      font-size: 1.8rem;
+      text-shadow: 0 0 10px #00aaff;
     }
 
     .key-box {
-      background: #031b2e;
-      border-radius: 12px;
-      padding: 18px 25px;
-      margin-bottom: 30px;
-      font-size: 2rem;
+      background: #011627;
+      border-radius: 10px;
+      padding: 15px 20px;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
       letter-spacing: 6px;
-      color: #00e1ff;
+      color: #00c8ff;
       user-select: all;
-      box-shadow: inset 0 0 18px #0099ff;
+      box-shadow: inset 0 0 15px #0077cc;
       cursor: text;
     }
 
@@ -111,23 +99,22 @@
       background: linear-gradient(90deg, #0077cc, #00c8ff);
       border: none;
       border-radius: 50px;
-      padding: 14px 50px;
-      font-size: 1.3rem;
-      font-weight: 700;
+      padding: 12px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
       color: #011f26;
       cursor: pointer;
       position: relative;
       overflow: hidden;
       z-index: 1;
-      box-shadow: 0 0 15px #00ffff;
+      box-shadow: 0 0 10px #00aaff;
       transition: all 0.3s ease;
-      user-select: none;
     }
 
     button:hover {
       background: linear-gradient(90deg, #005f88, #00e1ff);
       color: #000;
-      box-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
+      box-shadow: 0 0 15px #00c8ff, 0 0 30px #00c8ff;
     }
 
     button::after {
@@ -150,20 +137,19 @@
     }
 
     #copy-status {
-      margin-top: 20px;
-      font-size: 1.1rem;
-      color: #00eaff;
-      height: 24px;
+      margin-top: 15px;
+      font-size: 1rem;
+      color: #00c8ff;
+      height: 20px;
       transition: opacity 0.3s ease;
     }
   </style>
 </head>
 <body>
-  <!-- Background Rain -->
+  <!-- 🔵 CYBER FALL BACKGROUND -->
   <div class="falling" id="fall-bg"></div>
 
-  <!-- Main GUI -->
-  <div class="container" id="gui-container">
+  <div class="container">
     <h1>Access Key</h1>
     <div id="key" class="key-box" tabindex="0">9867456297</div>
     <button id="copy-btn">Copy Key</button>
@@ -171,80 +157,47 @@
   </div>
 
   <script>
-    // Set Key
+    // 👾 Set Key
     const expectedKey = "9867456297";
-    document.getElementById('key').textContent = expectedKey;
+    const keyDiv = document.getElementById('key');
+    keyDiv.textContent = expectedKey;
 
-    // Copy Button Logic
+    // ✂️ Copy Function
     const copyBtn = document.getElementById('copy-btn');
     const copyStatus = document.getElementById('copy-status');
 
     copyBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(expectedKey).then(() => {
-        copyStatus.textContent = '✔ Copied to clipboard!';
+        copyStatus.textContent = 'Copied to clipboard!';
         setTimeout(() => {
           copyStatus.textContent = '';
         }, 2000);
       }).catch(() => {
-        copyStatus.textContent = '✘ Failed to copy.';
+        copyStatus.textContent = 'Failed to copy.';
       });
     });
 
-    // Highlight key text on click
-    document.getElementById('key').addEventListener('click', () => {
+    keyDiv.addEventListener('click', () => {
       const range = document.createRange();
-      range.selectNodeContents(document.getElementById('key'));
+      range.selectNodeContents(keyDiv);
       const sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
     });
 
-    // Create Falling Rain Particles
+    // 🧬 Falling Particle Generator
     const fallContainer = document.getElementById('fall-bg');
-    const symbols = '★✦◇◆✧✩✪✯+*'; // glowing particles
+    const chars = '★✦◇◆✧✩';
 
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < 40; i++) {
       const span = document.createElement('span');
-      span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+      span.innerText = chars[Math.floor(Math.random() * chars.length)];
       span.style.left = Math.random() * 100 + '%';
-      span.style.fontSize = (Math.random() * 20 + 12) + 'px';
-      span.style.animationDuration = (Math.random() * 12 + 8) + 's';
-      span.style.animationDelay = Math.random() * 8 + 's';
+      span.style.fontSize = Math.random() * 20 + 10 + 'px';
+      span.style.animationDuration = Math.random() * 10 + 10 + 's';
+      span.style.animationDelay = Math.random() * 10 + 's';
       fallContainer.appendChild(span);
     }
-
-    // Rain show/hide based on mouse position relative to GUI
-    const gui = document.getElementById('gui-container');
-    const rain = document.getElementById('fall-bg');
-
-    document.body.addEventListener('mousemove', (e) => {
-      const rect = gui.getBoundingClientRect();
-      const inside = (
-        e.clientX >= rect.left &&
-        e.clientX <= rect.right &&
-        e.clientY >= rect.top &&
-        e.clientY <= rect.bottom
-      );
-      if (inside) {
-        rain.classList.add('paused'); // hide/stop rain when cursor inside GUI
-      } else {
-        rain.classList.remove('paused'); // show rain when outside GUI
-      }
-    });
-
-    // Start hidden if mouse loads inside GUI
-    window.addEventListener('load', () => {
-      const evt = { clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 };
-      const rect = gui.getBoundingClientRect();
-      if (
-        evt.clientX >= rect.left &&
-        evt.clientX <= rect.right &&
-        evt.clientY >= rect.top &&
-        evt.clientY <= rect.bottom
-      ) {
-        rain.classList.add('paused');
-      }
-    });
   </script>
 </body>
 </html>
